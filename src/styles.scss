@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'my-theme.scss';
+
+html, html body {
+  margin: 0;
+}
+
+.spacer {
+  flex-grow: 1;
+}
