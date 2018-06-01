@@ -1,6 +1,17 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
   <span>Angular & Firebase</span>
   <div class="spacer"></div>
-  <button *ngIf="!isAuthenticated" mat-raised-button color="accent" (click)="login()">Log In</button>
-  <button *ngIf="isAuthenticated" mat-raised-button color="accent" (click)="logout()">Log Out</button>
+
+  <div *ngIf="userChecked">
+    <button *ngIf="!currentUser; else userBtn" mat-raised-button color="accent" (click)="login()">Log In</button>
+    <ng-template #userBtn>
+      <button mat-raised-button color="accent">alejandrofpo@gmail.com</button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">Log Out</button>
+      </mat-menu>
+    </ng-template>
+  </div>
 </mat-toolbar>

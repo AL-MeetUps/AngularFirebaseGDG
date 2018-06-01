@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService } from '../_common/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,18 +9,40 @@ import { AngularFirestore } from 'angularfire2/firestore';
 })
 export class HomeComponent implements OnInit {
 
-  isAuthenticated = false;
+  currentUser: User;
+  userChecked: boolean;
 
-  constructor(db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private authService: AuthService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.isUserLoggedIn();
+  }
+
+  private isUserLoggedIn() {
+    this.authService.isAlreadyLoggedIn().subscribe((user) => {
+      this.currentUser = (user) ? this.getCurrentUser(user) : null;
+      this.userChecked = true;
+    });
+  }
 
   login() {
-    this.isAuthenticated = true;
+    this.authService.loginByGoogle().then((credentials) => {
+      this.currentUser = this.getCurrentUser(credentials.user);
+    });
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.authService.logout();
+    this.currentUser = null;
+  }
+
+  private getCurrentUser(user: any) {
+    const currentUser = <User>{};
+    currentUser.uid = user.uid;
+    currentUser.displayName = user.displayName;
+    currentUser.email = user.email;
+    currentUser.photoURL = user.photoURL;
+    return currentUser;
   }
 
 }
