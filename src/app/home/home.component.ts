@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ export class HomeComponent implements OnInit {
 
   isAuthenticated = false;
 
-  constructor() { }
+  constructor(db: AngularFirestore) { }
 
   ngOnInit() { }
 
