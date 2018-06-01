@@ -1,14 +1,18 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) { }
+  private currentUserSource = new Subject<User>();
+  public currentUser$ = this.currentUserSource.asObservable();
+
+  constructor(private afAuth: AngularFireAuth) {
+    this.syncCurrentUser();
+  }
 
   loginByGoogle() {
     const provider = new auth.GoogleAuthProvider();
@@ -19,7 +23,23 @@ export class AuthService {
     this.afAuth.auth.signOut();
   }
 
-  isAlreadyLoggedIn() {
+  userState() {
     return this.afAuth.authState;
+  }
+
+  private syncCurrentUser() {
+    this.afAuth.authState.subscribe((user) => {
+      const result = (user) ? this.getCurrentUser(user) : null;
+      this.currentUserSource.next(result);
+    });
+  }
+
+  private getCurrentUser(user: any) {
+    const currentUser = <User>{};
+    currentUser.uid = user.uid;
+    currentUser.displayName = user.displayName;
+    currentUser.email = user.email;
+    currentUser.photoURL = user.photoURL;
+    return currentUser;
   }
 }
