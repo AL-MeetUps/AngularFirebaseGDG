@@ -1,25 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService } from '../_common/auth.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  isAuthenticated = false;
+  currentUser: User;
+  userSub: Subscription;
+  userChecked: boolean;
 
-  constructor(db: AngularFirestore) { }
+  constructor(
+    private db: AngularFirestore,
+    private authService: AuthService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.userSub = this.authService.currentUser$.subscribe(user => {
+      this.currentUser = user;
+      this.userChecked = true;
+    });
+  }
+
+  ngOnDestroy() {
+    this.userSub.unsubscribe();
+  }
 
   login() {
-    this.isAuthenticated = true;
+    this.authService.loginByGoogle();
   }
 
   logout() {
-    this.isAuthenticated = false;
+    this.authService.logout();
+    this.currentUser = null;
   }
 
 }
