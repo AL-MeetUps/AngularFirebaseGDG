@@ -15,6 +15,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   userSub: Subscription;
   userChecked: boolean;
 
+  messages: Message[];
+
   constructor(
     private db: AngularFirestore,
     private authService: AuthService) { }
@@ -24,10 +26,17 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentUser = user;
       this.userChecked = true;
     });
+    this.getMessages();
   }
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+  }
+
+  private getMessages() {
+    this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
+      this.messages = messages;
+    });
   }
 
   login() {
