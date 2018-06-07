@@ -39,15 +39,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getMessages() {
-    const a = this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
+    this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
       this.messages = messages;
-      // this.db.collection('chat').add(<Message>{
-      //   text: 'Waya Waya',
-      //   imageURL: this.currentUser.photoURL,
-      //   userId: this.currentUser.uid,
-      //   createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      // });
-      // a.unsubscribe();
     });
   }
 
