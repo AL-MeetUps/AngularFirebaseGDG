@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from '../_common/auth.service';
+import { User } from '../_common/user';
 
 @Component({
   selector: 'app-home',

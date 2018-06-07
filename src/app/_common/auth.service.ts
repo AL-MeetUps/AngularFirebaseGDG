@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { User } from './user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
