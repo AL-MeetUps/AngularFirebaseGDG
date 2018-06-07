@@ -16,6 +16,6 @@
   </div>
 </mat-toolbar>
 
-<pre *ngFor="let message of messages">
-  {{ message | json }}
-</pre>
+<div class="messaging-area" *ngFor="let message of messages">
+  <app-bubble-chat [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
+</div>

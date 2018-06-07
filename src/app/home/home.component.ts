@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
+import * as firebase from 'firebase';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from '../_common/auth.service';
 import { User } from '../_common/user';
@@ -27,8 +28,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       this.userChecked = true;
+      if (this.currentUser) {
+        this.getMessages();
+      }
     });
-    this.getMessages();
   }
 
   ngOnDestroy() {
@@ -36,9 +39,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getMessages() {
-    this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
+    const a = this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
       this.messages = messages;
+      // this.db.collection('chat').add(<Message>{
+      //   text: 'Waya Waya',
+      //   imageURL: this.currentUser.photoURL,
+      //   userId: this.currentUser.uid,
+      //   createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      // });
+      // a.unsubscribe();
     });
+  }
+
+  isMine(message: Message) {
+    return message.userId === this.currentUser.uid;
   }
 
   login() {
