@@ -1,0 +1,21 @@
+.bubble-chat-wrapper {
+  .message {
+    background-color: mat-color($bg, card);
+    &::before {
+      border-color: transparent mat-color($bg, card) transparent transparent;
+    }
+  }
+  .date {
+    color: mat-color($fg, hint-text);
+  }
+  // customization for mine
+  &.mine {
+    .message {
+      background-color: mat-color($primary);
+      color: mat-color($primary, default-contrast);
+      &::before {
+        border-color: mat-color($primary) transparent transparent transparent;
+      }
+    }
+  }
+}
