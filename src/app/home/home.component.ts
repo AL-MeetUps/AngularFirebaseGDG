@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userChecked: boolean;
 
   messages: Message[];
+  messagesReady: boolean;
 
   constructor(
     private db: AngularFirestore,
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private getMessages() {
     this.db.collection<Message>('chat', ref => ref.orderBy('createdAt')).valueChanges().subscribe((messages) => {
       this.messages = messages;
+      this.messagesReady = true;
     });
   }
 

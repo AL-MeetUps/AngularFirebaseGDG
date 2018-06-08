@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+}
+.wrapper {
+  position: absolute;
+  top: calc(50vh - (350px / 2));
+  left: calc(50vw - (350px / 2));
+  .icon {
+    font-size: 350px;
+    opacity: 0.1;
+  }
+}
