@@ -16,6 +16,15 @@
   </div>
 </mat-toolbar>
 
-<div class="messaging-area" *ngFor="let message of messages">
-  <app-bubble-chat [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
+<div *ngIf="userChecked">
+  <div class="messaging-area" *ngIf="currentUser; else notAcess">
+    <mat-progress-bar mode="indeterminate" *ngIf="!messagesReady"></mat-progress-bar>
+    <div class="messages" *ngFor="let message of messages">
+      <app-bubble-chat [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
+    </div>
+  </div>
+
+  <ng-template #notAcess>
+    <app-not-access></app-not-access>
+  </ng-template>
 </div>

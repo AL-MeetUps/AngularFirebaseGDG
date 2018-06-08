@@ -4,9 +4,10 @@ import { MaterialModule } from '@material';
 
 import { HomeComponent } from './home.component';
 import { BubbleChatModule } from '../bubble-chat/bubble-chat.module';
+import { NotAccessModule } from '../not-access/not-access.module';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, BubbleChatModule],
+  imports: [CommonModule, MaterialModule, BubbleChatModule, NotAccessModule],
   exports: [HomeComponent],
   declarations: [HomeComponent]
 })
