@@ -1,0 +1,21 @@
+.wo {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+.new-message-area {
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 90px);
+  margin: 5px;
+  textarea {
+    resize: none !important;
+  }
+}
+.sender {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 16px;
+  z-index: 10;
+}
