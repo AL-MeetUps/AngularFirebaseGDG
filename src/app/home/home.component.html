@@ -22,6 +22,7 @@
     <div class="messages" *ngFor="let message of messages">
       <app-bubble-chat [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
     </div>
+    <app-send-message (newMessageEvt)="createMessage($event)"></app-send-message>
   </div>
 
   <ng-template #notAcess>

@@ -46,6 +46,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  createMessage(text: string) {
+    this.db.collection('chat').add(<Message>{
+      text,
+      imageURL: this.currentUser.photoURL,
+      userId: this.currentUser.uid,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+
   isMine(message: Message) {
     return message.userId === this.currentUser.uid;
   }
