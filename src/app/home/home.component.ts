@@ -6,6 +6,7 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from '../_common/auth.service';
 import { User } from '../_common/user';
 import { Message } from '../_common/message';
+import { MessagingService } from '../_common/messaging.service';
 
 @Component({
   selector: 'app-home',
@@ -23,7 +24,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(
     private db: AngularFirestore,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private messagingService: MessagingService) { }
 
   ngOnInit() {
     this.userSub = this.authService.currentUser$.subscribe(user => {
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.userChecked = true;
       if (this.currentUser) {
         this.getMessages();
+        this.messagingService.getPermission();
       }
     });
   }
@@ -53,6 +56,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       userId: this.currentUser.uid,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
+  }
+
+  sendNotification() {
+    setTimeout(() => this.messagingService.sendNotification().subscribe(), 4000);
   }
 
   isMine(message: Message) {
