@@ -13,14 +13,13 @@ export class MessagingService {
   constructor(private http: HttpClient) { }
 
   getPermission() {
-    this.messaging.requestPermission()
-      .then(() => {
-        console.log('Permisos de Notificación aceptado.');
-        this.messaging.getToken().then((token) => {
-          console.log(token);
-          this.currentToken = token;
-        });
+    this.messaging.requestPermission().then(() => {
+      console.log('Permisos de Notificación aceptado.');
+      this.messaging.getToken().then((token) => {
+        console.log(token);
+        this.currentToken = token;
       });
+    });
   }
 
   sendNotification() {
