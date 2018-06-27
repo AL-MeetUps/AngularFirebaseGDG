@@ -17,7 +17,9 @@ export class AuthService {
 
   loginByGoogle() {
     const provider = new auth.GoogleAuthProvider();
-    return this.afAuth.auth.signInWithPopup(provider);
+    this.afAuth.auth.setPersistence(auth.Auth.Persistence.SESSION).then(() => {
+      this.afAuth.auth.signInWithPopup(provider);
+    });
   }
 
   logout() {
