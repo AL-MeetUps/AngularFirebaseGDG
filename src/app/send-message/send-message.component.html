@@ -1,6 +1,6 @@
 <mat-form-field class="new-message-area">
   <div>
-    <textarea matInput [(ngModel)]="newMessage" placeholder="Send message"></textarea>
+    <textarea matInput [(ngModel)]="newMessage" (keyup.enter)="sendMessage(newMessage)" placeholder="Send message"></textarea>
   </div>
 </mat-form-field>
 <div class="sender">
