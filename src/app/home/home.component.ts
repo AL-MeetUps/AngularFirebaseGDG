@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import * as firebase from 'firebase';
+import { firestore } from 'firebase/app';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthService } from '../_common/auth.service';
 import { User } from '../_common/user';
@@ -13,14 +13,18 @@ import { MessagingService } from '../_common/messaging.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   currentUser: User;
   userSub: Subscription;
   userChecked: boolean;
 
   messages: Message[];
+  messagesSub: Subscription;
   messagesReady: boolean;
+
+  @ViewChild('messagingArea') messagingArea: ElementRef;
+  @ViewChildren('chats') chats: QueryList<any>;
 
   constructor(
     private db: AngularFirestore,
@@ -38,8 +42,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngAfterViewInit() {
+    this.messagesSub = this.chats.changes.subscribe(() => this.scrollToBottom());
+  }
+
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    this.messagesSub.unsubscribe();
   }
 
   private getMessages() {
@@ -54,7 +63,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       text,
       imageURL: this.currentUser.photoURL,
       userId: this.currentUser.uid,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      createdAt: firestore.FieldValue.serverTimestamp()
     });
   }
 
@@ -73,6 +82,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   logout() {
     this.authService.logout();
     this.currentUser = null;
+  }
+
+  private scrollToBottom() {
+    this.messagingArea.nativeElement.scrollTop = this.messagingArea.nativeElement.scrollHeight;
   }
 
 }

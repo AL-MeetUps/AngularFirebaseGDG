@@ -1,14 +1,11 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
-  <span>Angular & Firebase</span>
+  <span>Chatty App</span>
   <div class="spacer"></div>
 
   <div *ngIf="userChecked">
     <button *ngIf="!currentUser; else userBtn" mat-raised-button color="accent" (click)="login()">Log In</button>
     <ng-template #userBtn>
-      <button mat-raised-button color="accent">{{currentUser.email}}</button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
+      <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">{{currentUser.displayName}}</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item (click)="logout()">Log Out</button>
         <button mat-menu-item (click)="sendNotification()">Send Notification</button>
@@ -18,10 +15,10 @@
 </mat-toolbar>
 
 <div *ngIf="userChecked">
-  <div class="messaging-area" *ngIf="currentUser; else notAcess">
+  <div class="messaging-area"#messagingArea  *ngIf="currentUser; else notAcess">
     <mat-progress-bar mode="indeterminate" *ngIf="!messagesReady"></mat-progress-bar>
     <div class="messages" *ngFor="let message of messages">
-      <app-bubble-chat [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
+      <app-bubble-chat #chats [currentUser]="currentUser" [message]="message" [isMine]="isMine(message)"></app-bubble-chat>
     </div>
     <app-send-message (newMessageEvt)="createMessage($event)"></app-send-message>
   </div>
