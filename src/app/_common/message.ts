@@ -1,8 +1,12 @@
-import * as firebase from 'firebase';
+import { firestore } from 'firebase/app';
+
+export interface FirebaseTime extends firestore.FieldValue {
+  toDate(): Date;
+}
 
 export interface Message {
   userId: string;
   text: string;
   imageURL: string;
-  createdAt: firebase.firestore.FieldValue;
+  createdAt: FirebaseTime;
 }

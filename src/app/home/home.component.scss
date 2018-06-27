@@ -1,6 +1,25 @@
+mat-toolbar, mat-progress-bar {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+
+mat-progress-bar {
+  margin-top: 64px;
+}
+
 .messaging-area {
-  margin-top: 10px;
+  height: 80vh;
+  overflow: auto;
+  margin-top: 64px;
+  margin-bottom: 100px;
   .messages {
     margin: 15px;
+  }
+}
+
+@media(max-height: 800px) {
+  .messaging-area {
+    height: 70vh;
   }
 }

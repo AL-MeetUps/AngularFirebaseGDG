@@ -1,5 +1,5 @@
 <div class="bubble-chat-wrapper" [ngClass]="{'mine': isMine}">
   <span class="avatar" [style.backgroundImage]="'url('+ message.imageURL +')'"></span>
   <p class="message mat-elevation-z6">{{ message.text }}</p>
-  <span class="date">{{ message.createdAt.toDate() | date:'HH:mm' }}</span>
+  <span class="date">{{ message.createdAt?.toDate() | date:'HH:mm' }}</span>
 </div>
