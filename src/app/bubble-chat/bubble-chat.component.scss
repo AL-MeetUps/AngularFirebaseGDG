@@ -52,3 +52,11 @@
     }
   }
 }
+
+@media(max-width: 768px) {
+  .bubble-chat-wrapper {
+    .message {
+      max-width: 50vw;
+    }
+  }
+}
